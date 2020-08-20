@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class ClijvApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ClijvApplication.class, args);
+		System.exit(SpringApplication.exit(SpringApplication.run(ClijvApplication.class, args)));
 	}
 
 }
