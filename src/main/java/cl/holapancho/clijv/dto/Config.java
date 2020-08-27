@@ -4,15 +4,17 @@ public class Config {
     private String user;
     private String password;
     private String token;
+    private boolean isSandbox;
 
     public Config() {
     }
 
-    public Config(String user, String password, String token) {
+    public Config(String user, String password, String token, Boolean isSandbox) {
         this();
         this.user = user;
         this.password = password;
         this.token = token;
+        this.isSandbox = isSandbox;
     }
     
     public String getUser() {
@@ -29,6 +31,10 @@ public class Config {
 
     public String getPasswordAndToken(){
         return getPassword()+getToken();
+    }
+
+    public boolean getIsSandbox() {
+        return isSandbox;
     }
 
     @Override
@@ -60,5 +66,4 @@ public class Config {
             return false;
         return true;
     }
-
 }

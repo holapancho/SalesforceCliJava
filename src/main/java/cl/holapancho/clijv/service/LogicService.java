@@ -22,6 +22,7 @@ public class LogicService {
     private static final String USER_FIELD = "user";
     private static final String PASSWORD_FIELD = "password";
     private static final String TOKEN_FIELD = "token";
+    private static final String SANDBOX_FIELD = "isSandbox";
 
     public Config readConfig(File file) throws LogicServiceException {
         if (file == null) {
@@ -49,6 +50,7 @@ public class LogicService {
         String user = (String) jsonObject.get(USER_FIELD);
         String password = (String)jsonObject.get(PASSWORD_FIELD);
         String token = (String)jsonObject.get(TOKEN_FIELD);
+        Boolean isSandbox = (Boolean)jsonObject.get(SANDBOX_FIELD);
 
         if (!StringUtil.isNotBlank(user)){
             throw new LogicServiceException("empty user");
@@ -59,14 +61,22 @@ public class LogicService {
         if (!StringUtil.isNotBlank(token)){
             throw new LogicServiceException("empty token");
         }
+        if(isSandbox == null){
+            throw new LogicServiceException("empty isSandbox");
+        }
 
-        return new Config(user,password,token);
+        return new Config(user,password,token,isSandbox);
     }
 
     public PartnerConnection getConnectorConfig(Config config) throws LogicServiceException{
         ConnectorConfig connectorConfig = new ConnectorConfig();
         connectorConfig.setUsername(config.getUser());
-        connectorConfig.setAuthEndpoint("https://test.salesforce.com/services/Soap/u/40.0");
+        if(config.getIsSandbox()){
+            connectorConfig.setAuthEndpoint("https://test.salesforce.com/services/Soap/u/40.0");
+        }
+        else{
+            connectorConfig.setAuthEndpoint("https://salesforce.com/services/Soap/u/40.0");
+        }
         connectorConfig.setPassword(config.getPasswordAndToken());
         try {
             return Connector.newConnection(connectorConfig);
