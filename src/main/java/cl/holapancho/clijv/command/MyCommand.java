@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 import cl.holapancho.clijv.dto.Config;
 import cl.holapancho.clijv.exception.LogicServiceException;
-import cl.holapancho.clijv.service.LogicService;
+import cl.holapancho.clijv.service.interfaces.LogicService;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 

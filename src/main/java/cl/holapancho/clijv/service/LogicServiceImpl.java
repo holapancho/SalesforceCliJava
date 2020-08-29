@@ -7,23 +7,27 @@ import java.io.IOException;
 
 import cl.holapancho.clijv.dto.Config;
 import cl.holapancho.clijv.exception.LogicServiceException;
+import cl.holapancho.clijv.service.interfaces.LogicService;
 import cl.holapancho.clijv.util.StringUtil;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.springframework.stereotype.Component;
 
 import com.sforce.ws.ConnectorConfig;
 import com.sforce.soap.partner.Connector;
 import com.sforce.soap.partner.PartnerConnection;
 
-public class LogicService {
+@Component
+public class LogicServiceImpl implements LogicService{
 
     private static final String USER_FIELD = "user";
     private static final String PASSWORD_FIELD = "password";
     private static final String TOKEN_FIELD = "token";
     private static final String SANDBOX_FIELD = "isSandbox";
 
+    @Override
     public Config readConfig(File file) throws LogicServiceException {
         if (file == null) {
             throw new LogicServiceException("null file");
@@ -68,6 +72,7 @@ public class LogicService {
         return new Config(user,password,token,isSandbox);
     }
 
+    @Override
     public PartnerConnection getConnectorConfig(Config config) throws LogicServiceException{
         ConnectorConfig connectorConfig = new ConnectorConfig();
         connectorConfig.setUsername(config.getUser());
